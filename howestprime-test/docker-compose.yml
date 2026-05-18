@@ -1,5 +1,27 @@
 services:
+  movies-db.howestprime.test:
+    image: postgres
+    env_file:
+      - .movies-db.howestprime.test.env
+    restart: always
+    ports:
+      - 40221:5000
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - howestprime-test
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 40s
 
 networks:
+  howestprime-test:
+    ipam:
+      config:
+        - subnet: 10.22.0.0/16
 
 volumes:
+  postgres:
