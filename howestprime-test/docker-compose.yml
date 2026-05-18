@@ -48,6 +48,41 @@ services:
     networks:
       - howestprime-test 
 
+  # Microservice Ticketing
+  ticketing-db.howestprime.test:
+    image: mongo:latest
+    env_file:
+      - .ticketing-db.howestprime.test.env
+    restart: always
+    ports:
+      - 40231:5000
+    volumes:
+      - ../../data:/data/db
+    networks:
+      - howestprime-test
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --port 5000 --eval 'db.adminCommand(\"ping\")'"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 40s
+    command: >
+      bash -c "
+        mongod --port 5000 --replSet rs0 --bind_ip_all &
+        until mongosh --port 5000 --eval 'print(\"waited for connection\")'
+        do
+            sleep 1
+        done
+        mongosh --port 5000 --eval 'rs.initiate({
+          _id: \"rs0\",
+          members: [{ _id: 0, host: \"ticketing-db.howestprime.test:5000\" }]
+        })'
+        wait
+      "
+
+
+
+
   # Message Broker
   messagebroker.howestprime.test:
     image: cloudamqp/lavinmq
@@ -72,3 +107,4 @@ networks:
 
 volumes:
   postgres:
+  mongo:
