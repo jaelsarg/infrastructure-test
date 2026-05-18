@@ -80,7 +80,25 @@ services:
         wait
       "
 
-
+  ticketing.howestprime.test:
+    image: howestprime-ticketing:latest
+    env_file:
+      - .ticketing.howestprime.test.env
+    ports:
+      - 40230:8000
+    networks:
+      - howestprime-test
+    depends_on:
+      messagebroker.howestprime.test:
+        condition: service_healthy
+      ticketing-db.howestprime.test:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e 'require(\"http\").get(\"http://localhost:8000/health\", res => { process.exit(res.statusCode < 400 ? 0 : 1); }).on(\"error\", () => process.exit(1))' || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
 
 
   # Message Broker
