@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:40220
+
+### Register a movie
+POST {{baseUrl}}/api/movie-catalog
+Content-Type: application/json
+
+{
+  "title": "Paddington 2",
+  "description": "Paddington, now happily settled with the Brown family and a popular member of the local community, picks up a series of odd jobs to buy the perfect present for his Aunt Lucy's 100th birthday, only for the gift to be stolen.",
+  "duration": 103,
+  "genres": ["Adventure", "Comedy", "Family"],
+  "releaseYear": 2017,
+  "actors": ["Hugh Grant", "Brendan Gleeson", "Sally Hawkins"],
+  "ageRating": 7,
+  "posterUrl": "https://example.com/posters/paddington2.jpg"
+}
