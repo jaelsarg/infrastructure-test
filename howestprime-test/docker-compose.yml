@@ -99,7 +99,17 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
-
+    
+  # Client Webapp
+  client-webapp.howestprime.test:
+    image: hcr.technet.howest.be/howestprime-client-webapp:latest
+    env_file:
+      - .client-webapp.howestprime.test.env
+    ports:
+      - 10200:80
+    networks:
+      - howestprime-test
+    
 
   # Message Broker
   messagebroker.howestprime.test:
