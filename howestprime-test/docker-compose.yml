@@ -41,13 +41,12 @@ services:
   # Client Backoffice
   client-backoffice.howestprime.test:
     image: howestprime-client-backoffice:latest
+    env_file:
+      - .client-backoffice.howestprime.test.env
     ports:
       - 10210:8080
     networks:
       - howestprime-test 
-    depends_on:
-      movies.howestprime.test:
-        condition: service_healthy
 
   # Message Broker
   messagebroker.howestprime.test:
