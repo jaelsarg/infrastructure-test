@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:8000
+@orderId = 0ce54cb4-07cd-4bb1-9308-c9955f0d970e
+@bookingId = 2e77112b-5459-4079-88e7-ad2484143c79
+
+### Add customer to order
+POST {{baseUrl}}/api/orders/{{orderId}}/customer
+Content-Type: application/json
+Accept: application/json
+
+{
+    "salutation": "Mr.",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "agreeToTerms": true
+}
+
+### Get order by booking id
+GET {{baseUrl}}/api/orders/{{bookingId}}
+Accept: application/json
+
+### Pay order
+POST {{baseUrl}}/api/orders/{{orderId}}/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+    "externalId": "e98281ee-60bb-4838-a44f-1cc3f2ddec4a",
+    "paymentMethod": "CREDIT_CARD",
+    "cardNumber": "4111111111111111",
+    "expiryDate": "12/25",
+    "cvv": "123",
+    "bookingId": "{{bookingId}}",
+    "amount": 19.99
+}
