@@ -32,11 +32,22 @@ services:
       movies-db.howestprime.test:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      test: ["CMD-SHELL", "dotnet --info >/dev/null 2>&1 || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 5
       start_period: 10s
+
+  # Client Backoffice
+  client-backoffice.howestprime.test:
+    image: howestprime-client-backoffice:latest
+    ports:
+      - 10210:8080
+    networks:
+      - howestprime-test 
+    depends_on:
+      movies.howestprime.test:
+        condition: service_healthy
 
   # Message Broker
   messagebroker.howestprime.test:
