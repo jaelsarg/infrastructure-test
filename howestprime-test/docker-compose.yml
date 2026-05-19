@@ -32,7 +32,7 @@ services:
       movies-db.howestprime.test:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "dotnet --info >/dev/null 2>&1 || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/health || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -94,7 +94,7 @@ services:
       ticketing-db.howestprime.test:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "node -e 'require(\"http\").get(\"http://localhost:8000/health\", res => { process.exit(res.statusCode < 400 ? 0 : 1); }).on(\"error\", () => process.exit(1))' || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/health || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -135,4 +135,3 @@ networks:
 
 volumes:
   postgres:
-  mongo:
