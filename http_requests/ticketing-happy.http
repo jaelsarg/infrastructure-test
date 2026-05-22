@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8000
+@baseUrl = http://localhost:40230
 @orderId = 0ce54cb4-07cd-4bb1-9308-c9955f0d970e
 @bookingId = 2e77112b-5459-4079-88e7-ad2484143c79
 
